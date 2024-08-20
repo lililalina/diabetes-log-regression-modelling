@@ -582,3 +582,109 @@ logitgof(obs = mlogr$y, exp = fitted(mlogr), g=10)
 ```
 
 According to H-L test, the model does not have good galibration as p-value < 0.05
+
+```{r}
+#Analyze table of deviance
+anova(mlogr, test="Chisq")
+
+```
+Null deviance 326.0, the deviance reduced significantly as age and bmi added, however, gender does not result in significant reduction of deviance.
+
+## Modelling to Predict Diabetes Risk
+
+Predictors : age, bmi, chol, hdl, systolic, diastolic, gender, location, insurance, smoking, frame
+
+```{r}
+db$location <- as.factor(db$location)
+db$insurance <- as.factor(db$insurance)
+db$fh <- as.factor(db$fh)
+db$bp.1d <- as.numeric(db$bp.1d)
+db$frame <- as.factor(db$frame)
+```
+
+Predictors : age, bmi, chol, hdl, systolic, diastolic
+
+```{r}
+model <- glm(db$dm~db$age+db$bmi+db$chol+db$hdl+db$bp.1s+db$bp.1d, family = binomial(link="logit"))
+summary(model)
+```
+```{r}
+anova(model, test="Chisq")
+```
+Drop BP because they're not significant
+
+```{r}
+model2 <- glm(db$dm~db$age+db$bmi+db$chol+db$hdl, family = binomial(link="logit"))
+summary(model2)
+```
+Check correlation
+```{r}
+vars <- db[,c("age","chol","hdl","bmi","bp.1s","bp.1d")]
+round(cor(vars, use="complete.obs"), 3)
+```
+Systolic is weakly correlated with cholesterol and moderately correlated with age.
+
+```{r}
+# Removing systolic from the model 
+model3 <- glm(db$dm~db$age+db$bmi+db$chol+db$hdl+db$bp.1s, family = binomial(link="logit"))
+summary(model3)
+```
+```{r}
+model4 <- glm(db$dm~db$age+db$bmi+db$chol+db$hdl+db$bp.1d+db$bp.1s+db$gender+db$location+db$insurance+db$smoking+db$frame, family=binomial(link="logit"))
+summary(model4)
+```
+```{r}
+exp(model4$coefficient)
+```
+```{r}
+exp(confint(model4))
+```
+```{r}
+# dm by smoking
+smoke <- table(db$dm, db$smoking, exclude = NULL)
+smoke
+round(100*prop.table(smoke), digits = 2)
+```
+```{r}
+model5 <- glm(db$dm~db$age+db$bmi+db$chol+db$hdl+db$bp.1d+db$bp.1s+db$gender+db$smoking+db$frame, family=binomial(link="logit"))
+summary(model5)
+```
+```{r}
+model7 <- glm(db$dm~db$age+db$bmi+db$chol+db$hdl+db$bp.1s+db$gender+db$smoking, family=binomial(link="logit"))
+summary(model7)
+```
+```{r}
+# Calculate McFadden R-squared
+# R2 = 1-logLik(fullmodel)/logLik(nullmodel) #Here, full model is mlogr and null model is m
+Rmodel4 <- 1-logLik(model4)/logLik(m)
+Rmodel4
+
+Cstat(model4)
+
+HL4 <- hoslem.test(x=model4$y, y=fitted(model4), g=10)
+HL4 
+```
+
+```{r}
+# Calculate McFadden R-squared
+# R2 = 1-logLik(fullmodel)/logLik(nullmodel) #Here, full model is mlogr and null model is m
+Rmodel2 <- 1-logLik(model2)/logLik(m)
+Rmodel2
+
+Cstat(model4)
+
+HL2 <- hoslem.test(x=model2$y, y=fitted(model2), g=10)
+HL2 
+```
+```{r}
+# Calculate McFadden R-squared
+# R2 = 1-logLik(fullmodel)/logLik(nullmodel) #Here, full model is mlogr and null model is m
+Rmodel7 <- 1-logLik(model7)/logLik(m)
+Rmodel7
+
+Cstat(model7)
+
+HL7 <- hoslem.test(x=model7$y, y=fitted(model7), g=10)
+HL7 
+```
+After adding more predictors, according to value of Mc-Fadden Rsquared, C-statistics, and HL test, model 7 is chosen as the best model compared to other model. Model 7 uses age, bmi, chol, hdl, systolic, smoking and gender as predictors. 

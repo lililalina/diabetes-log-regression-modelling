@@ -2,39 +2,39 @@
 This project performs logistic regression modeling to explore factors associated with the presence of diabetes in a given dataset. The analysis is performed using R and includes exploratory data analysis (EDA), univariate and multivariate logistic regression, and data visualization.
 
 📁 Project Structure
-Data Import & Cleaning: Read CSV, convert data types, handle missing values.
+1. Data Import & Cleaning: Read CSV, convert data types, handle missing values.
 
-Feature Engineering:
+2. Feature Engineering:
 
-Conversion of imperial units (height/weight) to metric
+3. Conversion of imperial units (height/weight) to metric
 
-BMI calculation and categorization
+4. BMI calculation and categorization
 
-Age grouping
+5. Age grouping
 
-HDL and cholesterol categorization
+6. HDL and cholesterol categorization
 
-Exploratory Data Analysis (EDA):
+7. Exploratory Data Analysis (EDA):
 
-Summary statistics
+8. Summary statistics
 
-Frequency tables and proportions
+9. Frequency tables and proportions
 
-Visualization of variable distributions (e.g., density plots)
+10. Visualization of variable distributions (e.g., density plots)
 
-Logistic Regression Models:
+11. Logistic Regression Models:
 
-Univariate regression for each predictor (age, gender, BMI, HDL, cholesterol)
+12. Univariate regression for each predictor (age, gender, BMI, HDL, cholesterol)
 
-Multiple logistic regression
+13. Multiple logistic regression
 
-Odds ratio and confidence interval calculation
+14. Odds ratio and confidence interval calculation
 
-Visualization:
+15. Visualization:
 
-Odds and log-odds plots by categorical and continuous variables
+16. Odds and log-odds plots by categorical and continuous variables
 
-Dotcharts and logit plots for interpretability
+17. Dotcharts and logit plots for interpretability
 
 📊 Key Variables
 dm: Presence of diabetes (Yes/No)

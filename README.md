@@ -21,8 +21,8 @@ This project performs logistic regression modeling to explore factors associated
 16. Odds and log-odds plots by categorical and continuous variables
 17. Dotcharts and logit plots for interpretability
 
-📊 Key Variables
 
+📊 Variables
 1. dm: Presence of diabetes (Yes/No)
 2. age: Age in years
 3. gender: Male/Female
@@ -31,6 +31,7 @@ This project performs logistic regression modeling to explore factors associated
 6. hdl: High-density lipoprotein cholesterol
 7. chol: Total cholesterol
 8. bp.1s: Systolic blood pressure
+
 
 📈 Results Summary
 1. Age and BMI were statistically significant predictors of diabetes:
@@ -50,14 +51,14 @@ Each 1 mg/dL increase in HDL was associated with a 2.8% decrease in the odds of 
 Former smokers: OR = 0.90, 95% CI: 0.45–1.86, p = 0.78
 Current smokers: OR = 0.90, 95% CI: 0.33–2.34, p = 0.83
 
+
+
 📦 Requirements
 R (version ≥ 4.0)
 R packages:
 dplyr, ggplot2, Hmisc, gmodels, tidyverse, beeswarm
 
-🗂 Data
-The dataset diabeteslog.csv contains patient-level data and is used to conduct the logistic regression analysis. Some variables may contain missing values (e.g., dm).
-Note: Ensure the dataset is in the correct path or update the setwd() and read.csv() paths accordingly.
+
 
 🚀 How to Run
 Open the .Rmd file in RStudio.

@@ -5,8 +5,11 @@ library(gmodels)
 library(ggplot2)
 library(tidyverse)
 library(beeswarm)
+
+#Load dataset ############################################
 setwd("C:/Users/linan/Documents/GitHub/diabetes-log-regression-modelling")
 db <- read.csv(file= "C:/Users/linan/Documents/GitHub/diabetes-log-regression-modelling/diabeteslog.csv", header = TRUE, sep = ",")
+
 # Dimensions of the dataset
 dim(db)
 
@@ -19,7 +22,7 @@ head(db)
 # Concise summary of the dataset
 glimpse(db)
 
-# Summary statistics
+# Summary statistics #############################################
 summary(db)
 
 db$gender <- as.factor(db$gender)
@@ -31,6 +34,7 @@ db$weight <- as.numeric(db$weight)
 db$height <- as.numeric(db$height)
 db$waist <- as.numeric(db$waist)
 db$dm <- as.factor(db$dm)
+
 summary(db)
 t <- table(db$gender, exclude = NULL)
 t
@@ -278,7 +282,7 @@ bmi_cat <- factor(db$bmi_cat, levels = c("underweight","normal","overweight","ob
 # create crosstab for BMI categories and diabetes status
 dm_by_bmi_cat <- table(db$bmi_cat, db$dm)
 
-# create prop table for dm by cat
+# create prop table for dm by cat 
 dm_by_bmi_cat_prop <- prop.table(dm_by_bmi_cat, margin = 1)
 
 # calculate odds of DM by bmi cat

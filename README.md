@@ -23,14 +23,14 @@ This project performs logistic regression modeling to explore factors associated
 
 📊 Key Variables
 
-dm: Presence of diabetes (Yes/No)
-age: Age in years
-gender: Male/Female
-smoking: 1 = current, 2 = never, 3 = ex-smoker
-bmi: Calculated using height and weight
-hdl: High-density lipoprotein cholesterol
-chol: Total cholesterol
-bp.1s: Systolic blood pressure
+1. dm: Presence of diabetes (Yes/No)
+2. age: Age in years
+3. gender: Male/Female
+4. smoking: 1 = current, 2 = never, 3 = ex-smoker
+5. bmi: Calculated using height and weight
+6. hdl: High-density lipoprotein cholesterol
+7. chol: Total cholesterol
+8. bp.1s: Systolic blood pressure
 
 📈 Highlights of Findings
 1. Age and BMI are significant predictors of diabetes.

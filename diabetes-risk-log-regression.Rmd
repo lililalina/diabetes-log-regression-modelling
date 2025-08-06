@@ -2,7 +2,9 @@
 title: "Log-Regression-Diabetes"
 author: "Lina"
 date: "2024-07-08"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -91,6 +93,7 @@ summary(db$chol)
 summary(db$weight)
 summary(db$height)
 ```
+
 Weight and height in pounds and inch --> convert to cm and kg
 ```{r}
 height.si <- db$height*0.0254
@@ -144,6 +147,7 @@ agecat
 
 round(100*prop.table(agecat), digits=2)
 ```
+
 ```{r}
 #Frequencies of age group by gender
 
@@ -154,6 +158,7 @@ agegroup_by_gender
 round(100*prop.table(agegroup_by_gender), digits = 2)
 
 ```
+
 ```{r}
 #Recode dm to no=0 yes=1
 db$dm <- recode(db$dm, "no" = 0, "yes" = 1)
@@ -166,6 +171,7 @@ db$dm <- recode(db$dm, "no" = 0, "yes" = 1)
 ```{r}
 glm(db$dm~1, family = binomial (link=logit))
 ```
+
 ```{r}
 m <- glm(db$dm~1, family=binomial(link=logit))
 summary(m)
@@ -182,9 +188,11 @@ table(m$y)
 n <- glm(db$dm ~ db$gender, family = binomial (link=logit))
 summary(n)
 ```
+
 ```{r}
 exp(n$coefficient)
 ```
+
 ```{r}
 exp(confint(n))
 ```
@@ -203,12 +211,11 @@ gender <- relevel(db$gender, ref = "male")
 levels(db$gender)
 ```
 
+
 ```{r}
 n <- glm(db$dm~db$gender, family = binomial (link=logit))
 summary(n)
 ```
-
-
 
 ```{r}
 dm_by_age <- table(db$age, db$dm)
@@ -221,6 +228,7 @@ logodds <- log(odds)
 
 plot(rownames(freq_table), logodds)
 ```
+
 ## Variable Age
 
 ```{r}

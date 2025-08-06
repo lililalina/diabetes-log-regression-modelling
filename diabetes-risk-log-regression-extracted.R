@@ -64,6 +64,7 @@ bmicat
 
 round(100*prop.table(bmicat), digits=2)
 summary(db)
+
 #Frequencies of diabetes by BMI category
 
 dm_by_bmi_cat <- table(db$bmi_cat, db$dm, exclude = NULL)
@@ -85,6 +86,7 @@ agecat <- table(db$age_group)
 agecat
 
 round(100*prop.table(agecat), digits=2)
+
 #Frequencies of age group by gender
 
 agegroup_by_gender <- table(db$age_group, db$gender, exclude = NULL)
@@ -97,6 +99,7 @@ glm(db$dm~1, family = binomial (link=logit))
 m <- glm(db$dm~1, family=binomial(link=logit))
 summary(m)
 table(m$y)
+
 # Gender variable
 n <- glm(db$dm ~ db$gender, family = binomial (link=logit))
 summary(n)
@@ -116,6 +119,7 @@ odds <- freq_table[,"yes"]/freq_table[,"no"]
 logodds <- log(odds)
 
 plot(rownames(freq_table), logodds)
+
 # Age variable
 l <- glm(db$dm~db$age, family = binomial (link = logit))
 summary(l)
@@ -143,7 +147,9 @@ chol <- glm(db$dm~db$chol, family = binomial(link = logit))
 summary(chol)
 exp(chol$coefficient)
 exp(confint(chol))
-# Odds of male and female
+
+# Odds of male and female ########################
+
 # Create crosstable
 odds_gender <- table(db$gender, db$dm)
 
@@ -301,7 +307,9 @@ round(cor_matrix,4)
 library(corrplot)
 
 corrplot(cor_matrix, method = "color") #circle,color, pie
-#Multiple Logistic Regression : age, gender and bmi as predictors
+
+
+#Multiple Logistic Regression : age, gender and bmi as predictors ######################
 mlogr <- glm(db$dm~db$age+db$gender+db$bmi, family=binomial(link=logit))
 summary(mlogr)
 exp(mlogr$coefficient)
@@ -327,19 +335,23 @@ Cstat(mlogr)
 require(ResourceSelection)
 
 mlogr$y
+
 #Run Hosmer-Lemeshow test
 
 HL <- hoslem.test(x=mlogr$y, y=fitted(mlogr), g=10)
 HL
+
 # Plot the bserved vs expected number of cases for each of the groups
 plot(HL$observed[,"y1"], HL$expected[,"yhat1"])
 plot(HL$observed[,"y0"],HL$expected[,"yhat0"])
 # plot observed vs. expected prevalence for each of the 10 groups 
 plot(x = HL$observed[,"y1"]/(HL$observed[,"y1"]+HL$observed[,"y0"]), 
      y = HL$expected[,"yhat1"]/(HL$expected[,"yhat1"]+HL$expected[,"yhat0"])) 
+
 # goodness of Fit test using generalhoslem package
 require(generalhoslem)
 logitgof(obs = mlogr$y, exp = fitted(mlogr), g=10)
+
 #Analyze table of deviance
 anova(mlogr, test="Chisq")
 
@@ -379,6 +391,7 @@ Cstat(model4)
 
 HL4 <- hoslem.test(x=model4$y, y=fitted(model4), g=10)
 HL4 
+
 # Calculate McFadden R-squared
 # R2 = 1-logLik(fullmodel)/logLik(nullmodel) #Here, full model is mlogr and null model is m
 Rmodel2 <- 1-logLik(model2)/logLik(m)

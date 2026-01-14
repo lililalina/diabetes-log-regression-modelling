@@ -410,3 +410,5 @@ Cstat(model7)
 
 HL7 <- hoslem.test(x=model7$y, y=fitted(model7), g=10)
 HL7 
+
+exp(confint(model7))

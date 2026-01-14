@@ -83,6 +83,7 @@ t <- table(db$gender, exclude = NULL)
 t
 round(100*prop.table(t), digits = 2)
 ```
+
 ```{r}
 x <- table(db$dm)
 x
@@ -222,8 +223,10 @@ dm_by_age <- table(db$age, db$dm)
 
 freq_table <- prop.table(dm_by_age, margin = 1)
 
-odds <- freq_table[,"yes"]/freq_table[,"no"]
+odds <- freq_table[,"1"]/freq_table[,"0"]
+```
 
+```{r}
 logodds <- log(odds)
 
 plot(rownames(freq_table), logodds)
@@ -242,7 +245,6 @@ exp(l$coefficient)
 ```{r}
 exp(confint(l))
 ```
-
 
 
 log odds of having diabetes = intercept + (coefficient for age) * age in years
@@ -326,7 +328,7 @@ odds_gender <- table(db$gender, db$dm)
 dm_gender_prop <- prop.table(odds_gender, margin = 1)
 
 # calculate the odds
-odds_dm_gender <- dm_gender_prop[,"yes"]/dm_gender_prop[,"no"]
+odds_dm_gender <- dm_gender_prop[,"1"]/dm_gender_prop[,"0"]
 
 # log the odds
 logodds_gender <- log(odds_dm_gender)
@@ -342,7 +344,7 @@ dm_by_age <- table(db$age, db$dm)
 dm_by_age_prop <- prop.table(dm_by_age, margin = 1)
 
 # calculate the odds
-odds_age <- dm_by_age_prop[,"yes"]/dm_by_age_prop[,"no"]
+odds_age <- dm_by_age_prop[,"1"]/dm_by_age_prop[,"0"]
 
 # log the odds
 logodds_age <- log(odds_age)
@@ -359,7 +361,7 @@ dm_by_age_group <- table(db$age_group, db$dm)
 dm_by_agegroup_prop <- prop.table(dm_by_age_group, margin = 1)
 
 # calculate the odds
-odds_age_group <- dm_by_agegroup_prop[,"yes"]/dm_by_agegroup_prop[,"no"]
+odds_age_group <- dm_by_agegroup_prop[,"1"]/dm_by_agegroup_prop[,"0"]
 
 # log the odds
 logodds_agegroup <- log(odds_age_group)
@@ -376,7 +378,7 @@ dm_by_chol <- table(db$chol, db$dm)
 dm_by_chol_prop <- prop.table(dm_by_chol, margin = 1)
 
 # calculate the odds
-odds_chol <- dm_by_chol_prop[,"yes"]/dm_by_chol_prop[,"no"]
+odds_chol <- dm_by_chol_prop[,"1"]/dm_by_chol_prop[,"0"]
 
 # log the odds
 logodds_chol <- log(odds_chol)
@@ -401,7 +403,7 @@ dm_by_cholcat <- table(db$chol_cat, db$dm)
 dm_by_cholcat_prop <- prop.table(dm_by_cholcat, margin = 1)
 
 # calculate the odds of having diabetes per chol_categories
-odds_cholcat <- dm_by_cholcat_prop[,"yes"]/ dm_by_cholcat_prop[,"no"]
+odds_cholcat <- dm_by_cholcat_prop[,"1"]/ dm_by_cholcat_prop[,"0"]
 
 # calculate the logodds
 logodds_cholcat <- log(odds_cholcat)
@@ -421,7 +423,7 @@ dm_by_hdl <- table(db$hdl, db$dm)
 dm_by_hdl_prop <- prop.table(dm_by_hdl, margin = 1)
 
 # calculate the odds
-odds_hdl <- dm_by_hdl_prop[,"yes"]/dm_by_hdl_prop[,"no"]
+odds_hdl <- dm_by_hdl_prop[,"1"]/dm_by_hdl_prop[,"0"]
 
 # log the odds
 logodds_hdl <- log(odds_hdl)
@@ -446,7 +448,7 @@ db_by_hdlcat <- table(db$hdl_cat, db$dm)
 db_by_hdlcat_prop <- prop.table(db_by_hdlcat, margin = 1)
 
 # calculate the odds of having diabetes 
-odds_hdlcat <- db_by_hdlcat_prop[,"yes"]/db_by_hdlcat_prop[,"no"]
+odds_hdlcat <- db_by_hdlcat_prop[,"1"]/db_by_hdlcat_prop[,"0"]
 
 # calculate the logodds
 logodds_hdlcat = log(odds_hdlcat)
@@ -466,7 +468,7 @@ dm_by_bmi <- table(db$bmi, db$dm)
 dm_by_bmi_prop <- prop.table(dm_by_bmi, margin = 1)
   
 # calculate odds of dm by bmi
-dm_by_bmi_odds <- dm_by_bmi_prop[,"yes"]/dm_by_bmi_prop[,"no"]
+dm_by_bmi_odds <- dm_by_bmi_prop[,"1"]/dm_by_bmi_prop[,"0"]
 
 # calculate log odds of dm by bmi
 logodds_bmi <- log(dm_by_bmi_odds)
@@ -485,7 +487,7 @@ dm_by_bmi_cat <- table(db$bmi_cat, db$dm)
 dm_by_bmi_cat_prop <- prop.table(dm_by_bmi_cat, margin = 1)
 
 # calculate odds of DM by bmi cat
-odds_dm_by_bmi_cat <- dm_by_bmi_cat_prop[,"yes"]/dm_by_bmi_cat_prop[,"no"]
+odds_dm_by_bmi_cat <- dm_by_bmi_cat_prop[,"1"]/dm_by_bmi_cat_prop[,"0"]
 
 # calculate log odds of dm by bmi cat
 logodds_bmi_cat <- log(odds_dm_by_bmi_cat)
@@ -500,6 +502,7 @@ Decide if cholesterol and sbp might correlate to each other and influence the re
 ```{r}
 cor.test(db$hdl, db$chol, method = "pearson")
 ```
+## Correlation of variables
 
 ```{r}
 my_data<-db[,c("chol","hdl","glyhb","age","height","weight","bp.1s","bmi")]
@@ -595,7 +598,7 @@ require(generalhoslem)
 logitgof(obs = mlogr$y, exp = fitted(mlogr), g=10)
 ```
 
-According to H-L test, the model does not have good galibration as p-value < 0.05
+According to H-L test, the model does not have good calibration as p-value < 0.05
 
 ```{r}
 #Analyze table of deviance
@@ -667,6 +670,10 @@ summary(model5)
 model7 <- glm(db$dm~db$age+db$bmi+db$chol+db$hdl+db$bp.1s+db$gender+db$smoking, family=binomial(link="logit"))
 summary(model7)
 ```
+```{r}
+exp(confint(model7))
+```
+
 ```{r}
 # Calculate McFadden R-squared
 # R2 = 1-logLik(fullmodel)/logLik(nullmodel) #Here, full model is mlogr and null model is m
